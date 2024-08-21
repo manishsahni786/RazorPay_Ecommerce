@@ -1,0 +1,96 @@
+/* App.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f9;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.header {
+  background: #3f51b5;
+  color: white;
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+/* Product list styling */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Combined and updated product card styling */
+.product-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card.active {
+  border-color: #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Price styling */
+.price {
+  font-size: 24px;
+  color: #333;
+  margin: 10px 0;
+}
+
+/* General Buy button styling */
+.buy-button {
+  background: #3f51b5; /* Primary blue theme color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.buy-button:hover {
+  background: #303f9f; /* Darker shade for hover */
+  transform: scale(1.05);
+}
+
+/* Back to Home button styling */
+.back-button {
+  background: #3f51b5; /* Primary theme color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  margin: 10px;
+}
+
+.back-button:hover {
+  background: #303f9f; /* Darker shade for hover */
+  transform: scale(1.05);
+}
