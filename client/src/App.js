@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import RazorpayPayment from './components/RazorpayPayment';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import { AuthContext } from './context/AuthContext'; // Import AuthContext
 import './App.css';
 
 function App() {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const { user, logout } = useContext(AuthContext); // Get user and logout function from AuthContext
   const navigate = useNavigate();
 
   const products = [
@@ -27,10 +31,28 @@ function App() {
     navigate('/'); // Navigate back to the home page
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <div className="app-container">
       <header className="header">
         <h1>Welcome to Manish's Store 🛒</h1>
+        <div className="auth-buttons">
+          {!user ? (
+            <>
+              <button className="signup-button" onClick={() => navigate('/signup')}>Signup</button>
+              <button className="login-button" onClick={() => navigate('/login')}>Login</button>
+            </>
+          ) : (
+            <div className="user-info">
+              <span>{user.name} ({user.email})</span>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
+            </div>
+          )}
+        </div>
         {selectedProduct && <button className="back-button" onClick={handleBackClick}>Back to Home</button>}
       </header>
 
@@ -52,6 +74,8 @@ function App() {
             ))}
           </div>
         } />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/payment" element={
           <RazorpayPayment 
             productName={selectedProduct?.name} 

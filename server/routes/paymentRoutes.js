@@ -1,12 +1,13 @@
 const express = require('express');
+const protect = require('../middleware/authMiddleware'); // Import the protect middleware
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
-const Order = require('../models/Order');  // Import the Order model
+const Order = require('../models/Order');
 const router = express.Router();
 
 // @route   POST /api/payment/order
 // @desc    Create a new Razorpay order and save it to the database
-router.post('/order', async (req, res) => {
+router.post('/order',protect, async (req, res) => {
   try {
     const { amount } = req.body; // Amount received in paise
     console.log(`Amount received from client: ${amount}`); 
@@ -42,7 +43,7 @@ router.post('/order', async (req, res) => {
 
 // @route   POST /api/payment/verify
 // @desc    Verify Razorpay payment signature
-router.post('/verify', async (req, res) => {
+router.post('/verify',protect, async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
   try {

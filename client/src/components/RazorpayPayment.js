@@ -8,9 +8,21 @@ const RazorpayPayment = ({ productName, amount }) => {
     try {
       // Step 1: Create an order on the server
       const orderUrl = 'http://localhost:5000/api/payment/order';
-      const orderData = await axios.post(orderUrl, { amount }); // Amount in paise
+      const token = localStorage.getItem('authToken'); // Retrieve token from local storage or context
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+  
+      // Make the request with headers
+      const orderData = await axios.post(orderUrl, { amount }, { headers });
       const { amount: orderAmount, id: order_id, currency } = orderData.data;
-
+  
+      // Check if order data is received properly
+      if (!order_id || !orderAmount || !currency) {
+        throw new Error('Invalid order data received from the server');
+      }
+  
       // Step 2: Configure Razorpay options
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Your Razorpay API key
@@ -27,15 +39,15 @@ const RazorpayPayment = ({ productName, amount }) => {
               razorpay_payment_id: response.razorpay_payment_id,
               razorpay_signature: response.razorpay_signature,
             };
-
+  
             const verifyUrl = 'http://localhost:5000/api/payment/verify';
-            const result = await axios.post(verifyUrl, paymentData);
-
-            if (result.data.success) {
+            const verifyResult = await axios.post(verifyUrl, paymentData, { headers });
+  
+            if (verifyResult.data.success) {
               // Redirect to homepage or another page
               window.location.href = 'http://localhost:3000';
             } else {
-              alert(result.data.message);
+              alert(verifyResult.data.message);
             }
           } catch (verifyError) {
             console.error("Error verifying payment:", verifyError);
@@ -45,22 +57,23 @@ const RazorpayPayment = ({ productName, amount }) => {
         prefill: {
           name: "Manish Sahni",
           email: "manishsahni111@example.com",
-          contact: "9855887694"
+          contact: "9999999999"
         },
         theme: {
           color: "#3f51b5" // Apply the theme color from App.css
         },
       };
-
+  
       // Step 4: Open Razorpay payment UI
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-
+  
     } catch (error) {
-      console.error("Error creating Razorpay order:", error);
+      console.error("Error creating Razorpay order:", error.message);
       alert("Error creating payment order. Please try again.");
     }
   };
+  
 
   return (
     <div>
