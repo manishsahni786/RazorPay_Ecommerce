@@ -1,6 +1,10 @@
- import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Form, Input, Button, Typography } from 'antd';
 import axios from 'axios';
+import '../App.css';
+
+const { Title, Text } = Typography;
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -20,25 +24,27 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-form">
-      <h2>Signup</h2>
-      <form onSubmit={handleSignup}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Signup</button>
-      </form>
+    <div className="auth-form-container" style={{ width: '500px', margin: '0 auto' }}>
+      <Title level={2} className="auth-form-title">Create an Account</Title>
+      <Text>Sign up to start shopping with us!</Text>
+      <Form onSubmitCapture={handleSignup} className="auth-form" layout="vertical" style={{ marginTop: '20px' }}>
+        <Form.Item label="Email" required>
+          <Input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+          />
+        </Form.Item>
+        <Form.Item label="Password" required>
+          <Input.Password
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Create a password"
+          />
+        </Form.Item>
+        <Button type="primary" htmlType="submit" block>Signup</Button>
+      </Form>
     </div>
   );
 };

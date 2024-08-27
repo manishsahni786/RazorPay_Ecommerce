@@ -1,5 +1,4 @@
 const express = require('express');
-const protect = require('../middleware/authMiddleware'); // Import the protect middleware
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Order = require('../models/Order');
@@ -7,10 +6,11 @@ const router = express.Router();
 
 // @route   POST /api/payment/order
 // @desc    Create a new Razorpay order and save it to the database
-router.post('/order',protect, async (req, res) => {
+router.post('/order', async (req, res) => {
   try {
-    const { amount } = req.body; // Amount received in paise
+    const { amount } = req.body; // Amount and customerEmail received from client
     console.log(`Amount received from client: ${amount}`); 
+  
 
     const instance = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
@@ -18,7 +18,7 @@ router.post('/order',protect, async (req, res) => {
     });
 
     const order = await instance.orders.create({
-      amount: amount, // Amount in paise, no conversion needed
+      amount: amount, // Amount in paise
       currency: 'INR',
       receipt: `receipt_order_${Date.now()}`,
     });
@@ -26,7 +26,7 @@ router.post('/order',protect, async (req, res) => {
     // Save the order to the database
     const newOrder = new Order({
       razorpay_order_id: order.id,
-      amount: order.amount,  // Store the amount as received from Razorpay
+      amount: order.amount,
       currency: order.currency,
       receipt: order.receipt,
     });
@@ -41,9 +41,10 @@ router.post('/order',protect, async (req, res) => {
   }
 });
 
+
 // @route   POST /api/payment/verify
 // @desc    Verify Razorpay payment signature
-router.post('/verify',protect, async (req, res) => {
+router.post('/verify', async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
   try {

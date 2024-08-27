@@ -1,31 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import '../App.css'; // Ensure this file is in the correct path
+// import '../App.css';
 
 const RazorpayPayment = ({ productName, amount }) => {
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
     try {
+      setIsProcessing(true);
       // Step 1: Create an order on the server
       const orderUrl = 'http://localhost:5000/api/payment/order';
-      const token = localStorage.getItem('authToken'); // Retrieve token from local storage or context
+      const token = localStorage.getItem('authToken');
       const headers = {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
   
-      // Make the request with headers
-      const orderData = await axios.post(orderUrl, { amount }, { headers });
+      const orderData = await axios.post(orderUrl, {
+        amount,      
+      }, { headers });
+  
       const { amount: orderAmount, id: order_id, currency } = orderData.data;
   
-      // Check if order data is received properly
       if (!order_id || !orderAmount || !currency) {
         throw new Error('Invalid order data received from the server');
       }
   
       // Step 2: Configure Razorpay options
       const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Your Razorpay API key
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
         amount: orderAmount.toString(),
         currency: currency,
         name: "Manish Sahni's Store",
@@ -44,7 +47,6 @@ const RazorpayPayment = ({ productName, amount }) => {
             const verifyResult = await axios.post(verifyUrl, paymentData, { headers });
   
             if (verifyResult.data.success) {
-              // Redirect to homepage or another page
               window.location.href = 'http://localhost:3000';
             } else {
               alert(verifyResult.data.message);
@@ -56,7 +58,6 @@ const RazorpayPayment = ({ productName, amount }) => {
         },
         prefill: {
           name: "Manish Sahni",
-          email: "manishsahni111@example.com",
           contact: "9999999999"
         },
         theme: {
@@ -67,20 +68,20 @@ const RazorpayPayment = ({ productName, amount }) => {
       // Step 4: Open Razorpay payment UI
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
-  
+      setIsProcessing(false);
     } catch (error) {
+      setIsProcessing(false);
       console.error("Error creating Razorpay order:", error.message);
       alert("Error creating payment order. Please try again.");
     }
   };
-  
 
   return (
     <div>
       <h3>{productName}</h3>
       <p>Price: ₹{amount / 100}</p>
-      <button className="buy-button" onClick={handlePayment}>
-        Buy Now
+      <button className="buy-button" onClick={handlePayment} disabled={isProcessing}>
+        {isProcessing ? 'Processing...' : 'Buy Now'}
       </button>
     </div>
   );

@@ -1,89 +1,90 @@
 const express = require('express');
 const Order = require('../models/Order');
+const protect = require('../middleware/authMiddleware');
 const router = express.Router();
 
-// @route   POST /api/orders
-// @desc    Create a new order
-router.post('/', async (req, res) => {
-  const { productName, quantity, totalAmount, paymentId } = req.body;
+  // @route   POST /api/orders
+  // @desc    Create a new order
+  router.post('/', async (req, res) => {
+    const { productName, quantity, totalAmount, paymentId } = req.body;
 
-  const newOrder = new Order({
-    productName,
-    quantity,
-    totalAmount,
-    paymentId,
+    const newOrder = new Order({
+      productName,
+      quantity,
+      totalAmount,
+      paymentId,
+    });
+
+    try {
+      const savedOrder = await newOrder.save();
+      res.status(201).json(savedOrder);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
   });
 
-  try {
-    const savedOrder = await newOrder.save();
-    res.status(201).json(savedOrder);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// @route   GET /api/orders
-// @desc    Get all orders
-router.get('/', async (req, res) => {
-  try {
-    const orders = await Order.find();
-    res.json(orders);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// @route   GET /api/orders/:id
-// @desc    Get an order by ID
-router.get('/:id', async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+  // @route   GET /api/orders
+  // @desc    Get all orders
+  router.get('/', protect, async (req, res) => {
+    try {
+      const orders = await Order.find();
+      res.json(orders);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
-    res.json(order);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+  });
 
-// @route   PUT /api/orders/:id
-// @desc    Update an order
-router.put('/:id', async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+  // @route   GET /api/orders/:id
+  // @desc    Get an order by ID
+  router.get('/:id', async (req, res) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+      res.json(order);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
     }
+  });
 
-    const { productName, quantity, totalAmount, orderStatus } = req.body;
+  // @route   PUT /api/orders/:id
+  // @desc    Update an order
+  router.put('/:id', async (req, res) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
 
-    if (productName) order.productName = productName;
-    if (quantity) order.quantity = quantity;
-    if (totalAmount) order.totalAmount = totalAmount;
-    if (orderStatus) order.orderStatus = orderStatus;
+      const { productName, quantity, totalAmount, orderStatus } = req.body;
 
-    const updatedOrder = await order.save();
-    res.json(updatedOrder);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
+      if (productName) order.productName = productName;
+      if (quantity) order.quantity = quantity;
+      if (totalAmount) order.totalAmount = totalAmount;
+      if (orderStatus) order.orderStatus = orderStatus;
 
-// @route   DELETE /api/orders/:id
-// @desc    Delete an order
-router.delete('/:id', async (req, res) => {
-  try {
-    const order = await Order.findById(req.params.id);
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      const updatedOrder = await order.save();
+      res.json(updatedOrder);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
     }
+  });
 
-    await order.remove();
-    res.json({ message: 'Order removed' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+  // @route   DELETE /api/orders/:id
+  // @desc    Delete an order
+  router.delete('/:id', async (req, res) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
 
-module.exports = router;
+      await order.remove();
+      res.json({ message: 'Order removed' });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
+  module.exports = router;
