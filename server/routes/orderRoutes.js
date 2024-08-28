@@ -1,6 +1,5 @@
 const express = require('express');
 const Order = require('../models/Order');
-const protect = require('../middleware/authMiddleware');
 const router = express.Router();
 
   // @route   POST /api/orders
@@ -25,7 +24,7 @@ const router = express.Router();
 
   // @route   GET /api/orders
   // @desc    Get all orders
-  router.get('/', protect, async (req, res) => {
+  router.get('/', async (req, res) => {
     try {
       const orders = await Order.find();
       res.json(orders);
