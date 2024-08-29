@@ -5,19 +5,26 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import RecoverPassword from './components/RecoverPassword';
 import Sidebar from './components/Sidebar';
-import { AuthContext } from './context/AuthContext'; // Import AuthContext
+import Cart from './components/Cart';
+import { AuthContext } from './context/AuthContext';
 import './App.css';
 
 function App() {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('/');
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const { user, logout } = useContext(AuthContext); // Get user and logout function from AuthContext
+  const [cart, setCart] = useState([]);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation(); // Use useLocation to get the current route
+  const location = useLocation();
 
   useEffect(() => {
-    // Fetch categories from the backend
+    // Load cart items from local storage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      setCart(JSON.parse(savedCart));
+    }
+
     const fetchCategories = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/categories');
@@ -31,25 +38,48 @@ function App() {
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    // Save cart items to local storage
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
+
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
     setSelectedProduct(null);
     navigate(`/${category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`);
   };
 
+  const handleAddToCart = (product) => {
+    const productInCart = cart.find(item => item.name === product.name);
+
+    if (productInCart) {
+      setCart(cart.map(item =>
+        item.name === product.name
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setCart([...cart, { ...product, quantity: 1 }]);
+    }
+  };
+
+  const handleRemoveFromCart = (product) => {
+    setCart(cart.filter(item => item.name !== product.name));
+  };
+
   const handleBuyClick = (product) => {
     setSelectedProduct(product);
-    navigate('/payment'); // Navigate to the payment page
+    navigate('/payment');
   };
 
   const handleBackClick = () => {
     setSelectedProduct(null);
-    navigate('/'); // Navigate back to the home page
+    navigate('/');
   };
 
   const handleLogout = () => {
-    logout(); // Clear authentication state
-    navigate('/login'); // Redirect to the login page
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -57,6 +87,14 @@ function App() {
       <header className="header">
         <h1>Welcome to Manish's Store 🛒</h1>
         <div className="auth-buttons">
+          {user && (
+            <div className="cart-container">
+              <button className="cart-button" onClick={() => navigate('/cart')}>
+                🛒
+                {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+              </button>
+            </div>
+          )}
           {!user ? (
             <>
               <button className="signup-button" onClick={() => navigate('/signup')}>Signup</button>
@@ -64,21 +102,21 @@ function App() {
             </>
           ) : (
             <div className="user-info">
-              <span>{user.name} ({user.email})</span>
+              <span className="user-email">{user.name} ({user.email})</span>
               <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
           )}
+          {(location.pathname !== '/login' && location.pathname !== '/signup') && user && (
+            <button className="back-button" onClick={handleBackClick}>Home</button>
+          )}
         </div>
-        {(location.pathname !== '/login' && location.pathname !== '/signup') && user && (
-          <button className="back-button" onClick={handleBackClick}>Home</button>
-        )}
       </header>
 
       <div className="main-content">
         {location.pathname === '/' ? (
           <>
             <Sidebar 
-              categories={categories.map(cat => cat.name)} // Render category names from state
+              categories={categories.map(cat => cat.name)}
               selectedCategory={selectedCategory} 
               onCategoryClick={handleCategoryClick} 
             />
@@ -103,6 +141,9 @@ function App() {
                     className={`product-card ${selectedProduct && selectedProduct.name === product.name ? 'active' : ''}`} 
                     key={index}
                   >
+                    <span className="cart-icon" onClick={() => handleAddToCart(product)}>
+                     🛒
+                    </span>
                     <h3>{product.name}</h3>
                     <p className="price">₹{product.amount / 100}</p>
                     <button className="buy-button" onClick={() => handleBuyClick(product)}>
@@ -125,6 +166,7 @@ function App() {
               amount={selectedProduct?.amount} 
             />
           } />
+          <Route path="/cart" element={<Cart cartItems={cart} onRemoveFromCart={handleRemoveFromCart} onBuyClick={handleBuyClick} />} />
           {categories.map(category => (
             <Route 
               key={category.name}
@@ -138,6 +180,9 @@ function App() {
                         className={`product-card ${selectedProduct && selectedProduct.name === product.name ? 'active' : ''}`} 
                         key={index}
                       >
+                        <span className="cart-icon" onClick={() => handleAddToCart(product)}>
+                          🛒
+                        </span>
                         <h3>{product.name}</h3>
                         <p className="price">₹{product.amount / 100}</p>
                         <button className="buy-button" onClick={() => handleBuyClick(product)}>
