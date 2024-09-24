@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth'); // Import auth routes
 const orderRoutes = require('./routes/orderRoutes'); // Import order routes
 const paymentRoutes = require('./routes/paymentRoutes'); // Import payment routes
 const categoryRoutes = require('./routes/categoryRoutes'); // Import category routes
+const cartRoutes = require('./routes/cartRoutes');
+const protect = require('./middleware/authMiddleware');
 
 dotenv.config();
 
@@ -14,22 +16,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
+  
 }).then(() => console.log('Database connected'))
   .catch((err) => console.log('Database connection error: ', err));
 
-// Use the auth routes
+// Use routes
 app.use('/api/auth', authRoutes);
-
-// Use the protected routes
-app.use('/api/orders', orderRoutes);
+app.use('/api/orders',protect, orderRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/cart', protect, cartRoutes);
+app.use('/api/catgories', categoryRoutes);
 
-// Use the category routes
-app.use('/api/categories', categoryRoutes);
-// Fetch products by category
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

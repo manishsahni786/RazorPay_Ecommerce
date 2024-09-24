@@ -9,9 +9,8 @@ const protect = require('../middleware/authMiddleware');
 
 // Generate JWT Token
 const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '100d' });
 };
-
 // @route   POST /api/auth/signup
 // @desc    Register a new user
 router.post('/signup', async (req, res) => {
@@ -78,6 +77,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,  // Your Gmail password or App-specific password
   },
 });
+
 
 
 // Password recovery endpoint

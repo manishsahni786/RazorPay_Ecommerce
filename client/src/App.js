@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, Dropdown, Button } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import axios from 'axios';
 import RazorpayPayment from './components/RazorpayPayment';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import RecoverPassword from './components/RecoverPassword';
 import Sidebar from './components/Sidebar';
 import Cart from './components/Cart';
+import OrderList from './components/OrderList';
+import OrderDetail from './components/OrderDetail';
+import MostPopularProducts from './components/MostPopularProducts';
 import { AuthContext } from './context/AuthContext';
 import './App.css';
 
@@ -14,20 +20,14 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('/');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cart, setCart] = useState([]);
-  const { user, logout } = useContext(AuthContext);
+  const { user, authToken, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Load cart items from local storage
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
-
     const fetchCategories = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/categories');
+        const response = await fetch('http://localhost:5000/api/catgories');
         const data = await response.json();
         setCategories(data);
       } catch (error) {
@@ -39,9 +39,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // Save cart items to local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
+    const fetchCart = async () => {
+      if (authToken) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/cart', {
+            headers: { Authorization: `Bearer ${authToken}` }
+          });
+          console.log('Cart data:', response.data.items); // Check data here
+          setCart(response.data.items || []);
+        } catch (error) {
+          console.error('Error fetching cart:', error);
+        }
+      }
+    };
+    fetchCart();
+  }, [authToken]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -49,22 +61,43 @@ function App() {
     navigate(`/${category.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`);
   };
 
-  const handleAddToCart = (product) => {
-    const productInCart = cart.find(item => item.name === product.name);
-
-    if (productInCart) {
-      setCart(cart.map(item =>
-        item.name === product.name
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ));
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+  const handleAddToCart = async (product) => {
+    if (!product || !product._id) {
+      console.error('Invalid product:', product);
+      return;
+    }
+  
+    try {
+      await axios.post('http://localhost:5000/api/cart/add', {
+        productId: product._id,
+        quantity: 1
+      }, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+  
+      // Fetch the updated cart after adding the product
+      const response = await axios.get('http://localhost:5000/api/cart', {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      setCart(response.data.items || []);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
     }
   };
+  const handleRemoveFromCart = async (item) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/cart/items/${item._id}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
 
-  const handleRemoveFromCart = (product) => {
-    setCart(cart.filter(item => item.name !== product.name));
+      // Fetch the updated cart after removing the product
+      const response = await axios.get('http://localhost:5000/api/cart', {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      setCart(response.data.items || []);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
   };
 
   const handleBuyClick = (product) => {
@@ -81,6 +114,14 @@ function App() {
     logout();
     navigate('/login');
   };
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="orders" onClick={() => navigate('/orders')}>
+        Orders
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <div className="app-container">
@@ -101,8 +142,12 @@ function App() {
               <button className="login-button" onClick={() => navigate('/login')}>Login</button>
             </>
           ) : (
-            <div className="user-info">
-              <span className="user-email">{user.name} ({user.email})</span>
+            <div className="user-dropdown-container">
+              <Dropdown overlay={userMenu} trigger={['click']}>
+                <Button className="user-info">
+                  {user.email} <DownOutlined />
+                </Button>
+              </Dropdown>
               <button className="logout-button" onClick={handleLogout}>Logout</button>
             </div>
           )}
@@ -128,7 +173,10 @@ function App() {
                   Whether you're looking for the latest electronics, stylish fashion, or home essentials,
                   Manish's Store has it all. Start shopping today and enjoy exclusive deals and discounts!
                 </p>
-              </div>
+                </div>
+                <div>
+                  {/* <MostPopularProducts/> */}
+                </div>
             </div>
           </>
         ) : (
@@ -142,7 +190,7 @@ function App() {
                     key={index}
                   >
                     <span className="cart-icon" onClick={() => handleAddToCart(product)}>
-                     🛒
+                      🛒
                     </span>
                     <h3>{product.name}</h3>
                     <p className="price">₹{product.amount / 100}</p>
@@ -167,6 +215,8 @@ function App() {
             />
           } />
           <Route path="/cart" element={<Cart cartItems={cart} onRemoveFromCart={handleRemoveFromCart} onBuyClick={handleBuyClick} />} />
+          <Route path="/orders" element={<OrderList />} />
+          <Route path="/orders/:id" element={<OrderDetail />} />
           {categories.map(category => (
             <Route 
               key={category.name}
@@ -196,6 +246,7 @@ function App() {
             />
           ))}
         </Routes>
+        
       </div>
     </div>
   );

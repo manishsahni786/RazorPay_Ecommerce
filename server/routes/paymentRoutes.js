@@ -3,14 +3,18 @@ const Razorpay = require('razorpay');
 const crypto = require('crypto');
 const Order = require('../models/Order');
 const router = express.Router();
+const protect = require('../middleware/authMiddleware');
 
 // @route   POST /api/payment/order
 // @desc    Create a new Razorpay order and save it to the database
 router.post('/order', async (req, res) => {
   try {
-    const { amount } = req.body; // Amount and customerEmail received from client
-    console.log(`Amount received from client: ${amount}`); 
-  
+    const { amount, email, shippingDetails, product } = req.body; // Getting products from the client
+
+    // Validate the required fields
+    if (!email || !shippingDetails || !shippingDetails.address || !shippingDetails.city || !shippingDetails.postalCode || !shippingDetails.country || !product || product.length === 0) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
 
     const instance = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
@@ -29,18 +33,22 @@ router.post('/order', async (req, res) => {
       amount: order.amount,
       currency: order.currency,
       receipt: order.receipt,
+      email: email,
+      product: product.map(item => ({
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price // Include the price field for each product
+      })), // Store the array of products with the price
+      shippingDetails: shippingDetails, // Store shipping details
     });
 
     await newOrder.save();
-    console.log(`Order stored in database with amount: ${order.amount} paise`); 
-
     res.status(200).json(order);
   } catch (error) {
     console.error("Error creating Razorpay order:", error);
     res.status(500).json({ message: 'Something went wrong', error });
   }
 });
-
 
 // @route   POST /api/payment/verify
 // @desc    Verify Razorpay payment signature
@@ -51,9 +59,6 @@ router.post('/verify', async (req, res) => {
     const shasum = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET);
     shasum.update(`${razorpay_order_id}|${razorpay_payment_id}`);
     const digest = shasum.digest('hex');
-
-    console.log("Received Signature:", razorpay_signature);
-    console.log("Computed Signature:", digest);
 
     if (digest === razorpay_signature) {
       const updatedOrder = await Order.findOneAndUpdate(
@@ -75,6 +80,5 @@ router.post('/verify', async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal server error', error });
   }
 });
-
 
 module.exports = router;

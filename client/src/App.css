@@ -14,7 +14,7 @@ body {
 }
 
 .header {
-  background: #3f51b5;
+  background: green;
   color: white;
   width: 100%;
   text-align: center;
@@ -28,7 +28,7 @@ body {
   flex-wrap: wrap;
   gap: 20px;
   justify-content: flex-start; /* Align items to the start */
-  margin-left: -20px; /* Move the product list to the left */
+  margin-left: 20px; /* Move the product list to the left */
   padding-left: 20px; /* Ensure some padding for spacing */
 }
 
@@ -63,7 +63,7 @@ body {
 
 /* General Buy button styling */
 .buy-button {
-  background: #3f51b5; /* Primary blue theme color */
+  background: green; /* Primary blue theme color */
   color: white;
   border: none;
   border-radius: 4px;
@@ -74,14 +74,14 @@ body {
 }
 
 .buy-button:hover {
-  background: #303f9f; /* Darker shade for hover */
+  background: green; /* Darker shade for hover */
   transform: scale(1.05);
 }
 
 /* Back to Home button styling */
 .back-button {
   position: fixed; /* Fixed positioning to stay in the viewport */
-  background: #3f51b5; /* Primary theme color */
+  background: green; /* Primary theme color */
   color: white;
   border: none;
   border-radius: 4px;
@@ -95,7 +95,7 @@ body {
 }
 
 .back-button:hover {
-  background: #303f9f; /* Darker shade for hover */
+  background: #027402;; /* Darker shade for hover */
   transform: scale(1.05);
 }
 .auth-buttons {
@@ -107,9 +107,9 @@ body {
 }
 
 .auth-buttons .signup-button,
-.auth-buttons .login-button,
+.auth-buttons .login-button,  
 .auth-buttons .logout-button {
-  background: #3f51b5;
+  background: green;
   color: white;
   border: none;
   border-radius: 4px;
@@ -124,7 +124,7 @@ body {
 .auth-buttons .signup-button:hover,
 .auth-buttons .login-button:hover,
 .auth-buttons .logout-button:hover {
-  background: #303f9f;
+  background: #027402;
   transform: scale(1.05);
 }
 
@@ -147,18 +147,20 @@ body {
 .auth-form-title {
   text-align: center;
   font-size: 28px; /* Increase the font size */
-  color: #3f51b5;
+  color: green;
   margin-bottom: 20px;
 }
 
 /* Form Styles */
 .auth-form {
+  color: #008000;
   display: flex;
   flex-direction: column;
   width: 100%; /* Ensure the form takes full width of container */
 }
 
 .auth-input {
+  color: #008000;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 4px;
@@ -170,7 +172,7 @@ body {
 
 /* Submit Button Styles */
 .auth-submit-button {
-  background: #3f51b5;
+  background: green;
   color: white;
   border: none;
   border-radius: 4px;
@@ -181,7 +183,7 @@ body {
 }
 
 .auth-submit-button:hover {
-  background: #303f9f;
+  background: green;
   transform: scale(1.05);
 }
 
@@ -192,7 +194,7 @@ body {
   text-align: center;
   background: none;
   border: none;
-  color: #3f51b5; /* Primary theme color */
+  color: green; /* Primary theme color */
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
@@ -200,7 +202,7 @@ body {
 }
 
 .auth-forgot-password:hover {
-  color: #303f9f; /* Darker shade for hover */
+  color: green; /* Darker shade for hover */
 }
 
 /* Additional Description for the Auth Form */
@@ -238,7 +240,7 @@ body {
 
 .category-item:hover,
 .category-item.active {
-  background-color: #3f51b5;
+  background-color: green;
   color: white;
 }
 
@@ -295,7 +297,7 @@ body {
 
 /* Cart Button Styling */
 .cart-button {
-  background: #3f51b5; /* Primary blue theme color */
+  background:green; /* Primary blue theme color */
   color: white;
   border: none;
   border-radius: 50%;
@@ -389,7 +391,7 @@ body {
 /* Button styling */
 .cart-item .remove-button,
 .cart-item .buy-button {
-  background: #3f51b5;
+  background: green;
   color: white;
   border: none;
   border-radius: 4px;
@@ -405,7 +407,7 @@ body {
 
 .cart-item .remove-button:hover,
 .cart-item .buy-button:hover {
-  background: #303f9f;
+  background: green;
   transform: scale(1.05);
 }
 
@@ -478,4 +480,249 @@ body {
 /* Optional: Add a border for better visibility */
 .cart-icon {
   border: 2px solid #fff; /* Border color */
+}
+
+.order-list {
+  padding: 20px;
+  background-color: #f0f8ff;
+}
+
+.order-card {
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-card h3 {
+  color: #1a73e8;
+}
+
+.view-order-details {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.order-detail {
+  padding: 20px;
+  background-color: #f0f8ff;
+}
+
+.order-detail h2 {
+  color: #1a73e8;
+}
+
+.product-detail {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+/* Container for the dropdown */
+.user-dropdown-container {
+  display: flex;
+  align-items: center;
+}
+
+/* User info button */
+.user-info {
+  background-color: #008000; /* Green background */
+  color: white; /* White text */
+  border: none;
+  margin-right: 10px;
+  padding: 5px 10px; /* Add padding for better click area */
+  border-radius: 4px; /* Match the border radius */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+.user-info:hover {
+  background-color: #027402;; /* Darker green for hover */
+}
+
+/* Dropdown Menu Styling */
+
+/* Styles for the input fields in the RazorpayPayment component */
+.payment-input {
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  border: 1px solid #ccc; /* Light grey border */
+  font-size: 16px;
+  width: 100%; /* Full width of the container */
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.payment-input:focus {
+  border-color: green; /* Change border color on focus to match theme */
+  outline: none; /* Remove default focus outline */
+}
+
+.payment-input::placeholder {
+  color: #999; /* Placeholder text color */
+}
+  
+/* Loading Container */
+/* Loading Container */
+/* Loading Container */
+.loading-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  height: 100vh;           /* Full viewport height */
+  width: 100vw;            /* Full viewport width */
+  font-size: 24px;
+  color: green;            /* Theme color */
+}
+
+/* Loading Container */
+.loading-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
+  height: 100vh;           /* Full viewport height */
+  width: 100vw;            /* Full viewport width */
+  position: relative;      /* Set position relative for absolute positioning */
+}
+
+.loading-content {
+  position: absolute;      /* Absolute positioning */
+  top: 40%;                /* Adjust this value to move it slightly above the center */
+  left: 50%;               /* Center horizontally */
+  transform: translate(-50%, -50%); /* Center it based on its own width/height */
+  font-size: 24px;
+  color: green;            /* Theme color */
+}
+
+/* General adjustments for positioning */
+.app-container {
+  padding: 0 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px; /* Adjusted for better spacing */
+}
+
+.most-popular-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between product cards */
+  justify-content: space-around; /* Center the products */
+  margin-top: 50px; /* Increased margin to ensure it sits below intro text */
+}
+
+.most-popular-products .product-card {
+  flex: 0 0 23%;
+  max-width: 23%;
+  box-sizing: border-box;
+  position: relative;
+  padding: 15px; /* Adjusted padding for better spacing */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: box-shadow 0.3s ease;
+}
+
+.most-popular-products .product-card:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.most-popular-products .product-card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.most-popular-products .product-card .price {
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.most-popular-products .product-card .cart-icon {
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ff7f50;
+}
+
+.most-popular-products .product-card .buy-button {
+  background-color: #ff7f50;
+  color: white;
+  border: none;
+  padding: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .most-popular-products .product-card {
+    flex: 0 0 48%;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .most-popular-products .product-card {
+    flex: 0 0 100%;
+  }
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+  .most-popular-products .product-card {
+    flex: 0 0 48%;
+    max-width: 48%; /* Two products per row on smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .most-popular-products .product-card {
+    flex: 0 0 100%;
+    max-width: 100%; /* Single product per row on very small screens */
+  }
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .most-popular-products .product-card {
+    flex: 0 0 48%;
+  }
+
+  .sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .most-popular-products .product-card {
+    flex: 0 0 100%;
+  }
 }
