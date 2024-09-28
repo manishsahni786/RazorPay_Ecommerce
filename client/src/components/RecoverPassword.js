@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Typography } from 'antd';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import axios from 'axios';
-import '../App.css';
-const { Title } = Typography;
 
 const RecoverPassword = () => {
   const [email, setEmail] = useState('');
@@ -11,7 +9,7 @@ const RecoverPassword = () => {
   const handleRecoverPassword = async (e) => {
     e.preventDefault();
     try {
-      // const res = await axios.post('http://localhost:5000/api/auth/recover-password', { email });
+      await axios.post('http://localhost:5000/api/auth/recover-password', { email });
       setMessage('Recovery email sent. Please check your inbox.');
     } catch (err) {
       console.error('Recovery failed:', err);
@@ -20,21 +18,45 @@ const RecoverPassword = () => {
   };
 
   return (
-    <div className="auth-form-container">
-      <Title level={2} className="auth-form-title">Recover Password</Title>
-      <Form onSubmitCapture={handleRecoverPassword} className="auth-form" layout="vertical">
-        <Form.Item label="Email" required>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-          />
-        </Form.Item>
-        <Button type="primary" htmlType="submit" block>Recover Password</Button>
-      </Form>
-      {message && <Typography.Paragraph>{message}</Typography.Paragraph>}
-    </div>
+    <Container maxWidth="lg">
+      <Box className="custom-container">
+        <Typography variant="h5" align="center" gutterBottom style={{ marginTop: '30px' }}>
+          Recover Password
+        </Typography>
+        <form onSubmit={handleRecoverPassword}>
+          <Box mb={2}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              className="custom-input"
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              InputLabelProps={{ style: { fontSize: 14 } }}
+            />
+          </Box>
+          <Button 
+            type="submit" 
+            variant="contained" 
+            className="custom-button"
+          >
+            Recover Password
+          </Button>
+        </form>
+        {message && (
+          <Typography 
+            variant="body2" 
+            align="center" 
+            color="textSecondary" 
+            style={{ marginTop: '20px' }}
+          >
+            {message}
+          </Typography>
+        )}
+      </Box>
+    </Container>
   );
 };
 

@@ -1,11 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Typography } from 'antd';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
-// import '../App.css';
-
-const { Title } = Typography;
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,30 +32,57 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-form-container" style={{ width: '500px', margin: '0 auto' }}>
-      <Title level={2} className="auth-form-title">Login</Title>
-      <Form onSubmitCapture={handleLogin} className="auth-form" layout="vertical">
-        <Form.Item label="Email" required>
-          <Input
-            type="email"
+    <Container maxWidth="lg">
+      <Box className="custom-container">
+        <Typography variant="h5" align="center" gutterBottom style={{ marginTop: '30px' }}>
+          Login
+        </Typography>
+        <form onSubmit={handleLogin}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            className="custom-input"
+            required
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
           />
-        </Form.Item>
-        <Form.Item label="Password" required>
-          <Input.Password
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Button type="primary" htmlType="submit" block>Login</Button>
-      </Form>
-      <Button type="link" onClick={handleForgotPassword} className="auth-forgot-password">
-        Forgot Password?
-      </Button>
-    </div>
+          <Box className="spacing">
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              className="custom-input"
+              required
+              margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Box>
+          <Button
+            type="submit"
+            variant="contained"
+            className="custom-button"
+          >
+            Login
+          </Button>
+        </form>
+        <Typography
+          variant="body2"
+          style={{
+            color: 'black',
+            cursor: 'pointer',
+            textAlign: 'center',
+            marginTop: '10px',
+          }}
+          onClick={handleForgotPassword}
+          onMouseOver={(e) => e.currentTarget.style.color = '#3f51b5'}
+          onMouseOut={(e) => e.currentTarget.style.color = 'black'}
+        >
+          Forgot Password?
+        </Typography>
+      </Box>
+    </Container>
   );
 };
 

@@ -86,7 +86,7 @@ function App() {
   };
   const handleRemoveFromCart = async (item) => {
     try {
-      await axios.delete(`http://localhost:5000/api/cart/items/${item._id}`, {
+      await axios.delete(`http://localhost:5000/api/cart/delete/${item.productId}`, {
         headers: { Authorization: `Bearer ${authToken}` }
       });
 

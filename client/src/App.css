@@ -1,4 +1,3 @@
-/* General styling */
 body {
   font-family: 'Arial', sans-serif;
   margin: 0;
@@ -14,22 +13,27 @@ body {
 }
 
 .header {
-  background: green;
+  background: #3f51b5; /* Blue theme */
   color: white;
   width: 100%;
-  text-align: center;
-  padding: 15px;
+  text-align: center; /* Keep text centered */
+  padding: 15px 15px 15px 150px; /* Increase left padding */
   margin-bottom: 20px;
 }
+
+body {
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
 
 /* Product list styling */
 .product-list {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: flex-start; /* Align items to the start */
-  margin-left: 20px; /* Move the product list to the left */
-  padding-left: 20px; /* Ensure some padding for spacing */
+  justify-content: flex-start;
+  margin-left: 20px;
+  padding-left: 20px;
 }
 
 /* Combined and updated product card styling */
@@ -50,8 +54,8 @@ body {
 }
 
 .product-card.active {
-  border-color: #007bff;
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.5);
+  border-color: #3f51b5; /* Blue border when active */
+  box-shadow: 0 4px 8px rgba(63, 81, 181, 0.5); /* Blue shadow */
 }
 
 /* Price styling */
@@ -63,7 +67,7 @@ body {
 
 /* General Buy button styling */
 .buy-button {
-  background: green; /* Primary blue theme color */
+  background: #3f51b5; /* Blue theme */
   color: white;
   border: none;
   border-radius: 4px;
@@ -74,14 +78,14 @@ body {
 }
 
 .buy-button:hover {
-  background: green; /* Darker shade for hover */
+  background: #303f9f; /* Darker blue shade for hover */
   transform: scale(1.05);
 }
 
 /* Back to Home button styling */
 .back-button {
-  position: fixed; /* Fixed positioning to stay in the viewport */
-  background: green; /* Primary theme color */
+  position: fixed;
+  background: #3f51b5; /* Blue theme */
   color: white;
   border: none;
   border-radius: 4px;
@@ -89,27 +93,28 @@ body {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
-  top: 27px; /* Distance from the top of the viewport */
-  left: 19px; /* Distance from the left of the viewport */
-  z-index: 1000; /* Ensure it's above other elements */
+  top: 27px;
+  left: 19px;
+  z-index: 1000;
 }
 
 .back-button:hover {
-  background: #027402;; /* Darker shade for hover */
+  background: #303f9f; /* Darker blue shade for hover */
   transform: scale(1.05);
 }
+
 .auth-buttons {
   position: absolute;
-  top: 20px; /* Align with the header padding */
-  right: 20px; /* Align with the header right margin */
+  top: 20px;
+  right: 20px;
   display: flex;
   gap: 10px;
 }
 
 .auth-buttons .signup-button,
-.auth-buttons .login-button,  
+.auth-buttons .login-button,
 .auth-buttons .logout-button {
-  background: green;
+  background: #3f51b5; /* Blue theme */
   color: white;
   border: none;
   border-radius: 4px;
@@ -118,100 +123,21 @@ body {
   cursor: pointer;
   transition: background 0.3s, transform 0.3s;
   margin: 5px;
-  
 }
 
 .auth-buttons .signup-button:hover,
 .auth-buttons .login-button:hover,
 .auth-buttons .logout-button:hover {
-  background: #027402;
+  background: #303f9f; /* Darker blue shade */
   transform: scale(1.05);
 }
 
-/* Auth Form Container Styles */
-.auth-form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 600px; /* Updated to 600px */
-  margin: auto;
-}
 
-/* Title Styles */
-.auth-form-title {
-  text-align: center;
-  font-size: 28px; /* Increase the font size */
-  color: green;
-  margin-bottom: 20px;
-}
 
-/* Form Styles */
-.auth-form {
-  color: #008000;
-  display: flex;
-  flex-direction: column;
-  width: 100%; /* Ensure the form takes full width of container */
-}
 
-.auth-input {
-  color: #008000;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  width: 100%; /* Ensure input takes full width of form */
-  box-sizing: border-box;
-}
 
-/* Submit Button Styles */
-.auth-submit-button {
-  background: green;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
 
-.auth-submit-button:hover {
-  background: green;
-  transform: scale(1.05);
-}
 
-/* Forgot Password Link Styles */
-.auth-forgot-password {
-  display: block;
-  margin-top: 16px;
-  text-align: center;
-  background: none;
-  border: none;
-  color: green; /* Primary theme color */
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-  font-size: 14px;
-}
-
-.auth-forgot-password:hover {
-  color: green; /* Darker shade for hover */
-}
-
-/* Additional Description for the Auth Form */
-.auth-form-description {
-  text-align: center;
-  font-size: 18px; /* Add some descriptive text */
-  color: #555;
-  margin-bottom: 30px;
-}
 
 /* Sidebar styling */
 .main-content {
@@ -226,6 +152,7 @@ body {
   position: fixed;
   height: 100%;
 }
+
 .category-list {
   list-style-type: none;
   padding: 0;
@@ -240,35 +167,36 @@ body {
 
 .category-item:hover,
 .category-item.active {
-  background-color: green;
+  background-color: #3f51b5; /* Blue highlight */
   color: white;
 }
 
-/* Additional styling for product-section to adjust product positioning */
-/* Additional styling for product-section to bring products very close to h2 */
+/* Product Section Styling */
 .product-section {
   display: grid;
-  grid-template-columns: 1fr 3fr; /* Adjust the proportions as needed */
-  gap: 10px; /* Add space between the heading and the products */
-  align-items: start; /* Align items to the start of the container */
+  grid-template-columns: 1fr 3fr;
+  gap: 10px;
+  align-items: start;
 }
 
 .product-section h2 {
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove padding */
-  width: 100%; /* Ensure heading takes full width of its grid cell */
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .product-list {
-  margin-left: -200; /* Move product list closer to the heading */
-  padding-left: 0px; /* Adjust padding if needed to ensure alignment */
+  margin-left: -200;
+  padding-left: 0px;
 }
 
 /* Ensure the product list container aligns closely with the heading */
 .product-list-container {
-  margin-left: 0; /* Remove any margin to align closely */
-  padding-left: 5px; /* Adjust padding as needed */
+  margin-left: 0;
+  padding-left: 5px;
 }
+
+/* Intro Section */
 .intro-section {
   margin-top: 20px;
   padding: 20px;
@@ -297,7 +225,7 @@ body {
 
 /* Cart Button Styling */
 .cart-button {
-  background:green; /* Primary blue theme color */
+  background: #3f51b5; /* Changed to #3f51b5 */
   color: white;
   border: none;
   border-radius: 50%;
@@ -309,9 +237,8 @@ body {
   font-size: 20px;
   cursor: pointer;
   position: absolute;
-  margin: 0 -25px;                   /* Align with the header padding */
+  margin: 0 -25px; /* Align with the header padding */
   top: 3px;
-   /* Adjust this value to place the cart button between the username and logout button */
   transition: background 0.3s, transform 0.3s;
 }
 
@@ -335,6 +262,7 @@ body {
   justify-content: center;
   font-size: 12px;
 }
+
 .user-email {
   margin-right: auto; /* Pushes the email to the left */
 }
@@ -349,13 +277,25 @@ body {
   background: white;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 20px;
+  padding: 5px; /* Further reduced padding to decrease height */
   width: 250px; /* Match product card width */
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
   position: relative;
   margin: 10px;
+}
+
+/* Add a dot to the left side of the product */
+.cart-item::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: black; /* Changed dot color to black */
+  border-radius: 50%;
+  position: absolute;
+  left: -15px; /* Adjust as necessary */
+  top: 20%; /* Center the dot vertically */
 }
 
 .cart-item:hover {
@@ -370,28 +310,9 @@ body {
   margin-top: 10px;
 }
 
-
-/* Button styling */
-/* Adjust spacing between buttons */
-/* Adjust spacing between buttons */
-.cart-item .button-container {
-  display: flex;
-  gap: 15px; 
-  margin-top: 10px;
-}
-
-/* Button styling */
-/* Adjust spacing between buttons */
-.cart-item .button-container {
-  display: flex;
-  gap: 5px; /* Adjust the gap to control space between buttons */
-  margin-top: 10px;
-}
-
 /* Button styling */
 .cart-item .remove-button,
 .cart-item .buy-button {
-  background: green;
   color: white;
   border: none;
   border-radius: 4px;
@@ -405,17 +326,20 @@ body {
   background: rgba(255, 0, 0); /* Different color for remove button */
 }
 
+/* Change buy button to #3f51b5 */
+.cart-item .buy-button {
+  background: #3f51b5; /* Changed to #3f51b5 */
+}
+
 .cart-item .remove-button:hover,
 .cart-item .buy-button:hover {
-  background: green;
+  background: #3f51b5;
   transform: scale(1.05);
 }
 
 .cart-item .remove-button:hover {
   background: #cb0d0d; /* Darker shade for remove button hover */
 }
-
-
 
 /* Cart summary styling */
 .cart-summary {
@@ -437,7 +361,6 @@ body {
   .cart-items {
     display: block; /* Single column layout for smaller screens */
   }
-
 }
 
 .cart-icon {
@@ -497,11 +420,11 @@ body {
 }
 
 .order-card h3 {
-  color: #1a73e8;
+  color: #3f51b5; /* Changed to #3f51b5 */
 }
 
 .view-order-details {
-  color: #1a73e8;
+  color: #3f51b5; /* Changed to #3f51b5 */
   text-decoration: none;
 }
 
@@ -511,7 +434,7 @@ body {
 }
 
 .order-detail h2 {
-  color: #1a73e8;
+  color: #3f51b5; /* Changed to #3f51b5 */
 }
 
 .product-detail {
@@ -519,6 +442,7 @@ body {
   padding-top: 10px;
   margin-top: 10px;
 }
+
 /* Container for the dropdown */
 .user-dropdown-container {
   display: flex;
@@ -527,7 +451,7 @@ body {
 
 /* User info button */
 .user-info {
-  background-color: #008000; /* Green background */
+  background-color: #3f51b5; /* Changed to #3f51b5 */
   color: white; /* White text */
   border: none;
   margin-right: 10px;
@@ -540,7 +464,7 @@ body {
 }
 
 .user-info:hover {
-  background-color: #027402;; /* Darker green for hover */
+  background-color: #027402; /* Darker green for hover */
 }
 
 /* Dropdown Menu Styling */
@@ -558,26 +482,13 @@ body {
 }
 
 .payment-input:focus {
-  border-color: green; /* Change border color on focus to match theme */
+  border-color: #3f51b5; /* Change border color on focus to match theme */
   outline: none; /* Remove default focus outline */
 }
 
 .payment-input::placeholder {
   color: #999; /* Placeholder text color */
 }
-  
-/* Loading Container */
-/* Loading Container */
-/* Loading Container */
-.loading-container {
-  display: flex;
-  justify-content: center; /* Center horizontally */
-  align-items: center;     /* Center vertically */
-  height: 100vh;           /* Full viewport height */
-  width: 100vw;            /* Full viewport width */
-  font-size: 24px;
-  color: green;            /* Theme color */
-}
 
 /* Loading Container */
 .loading-container {
@@ -586,143 +497,97 @@ body {
   align-items: center;     /* Center vertically */
   height: 100vh;           /* Full viewport height */
   width: 100vw;            /* Full viewport width */
-  position: relative;      /* Set position relative for absolute positioning */
-}
-
-.loading-content {
-  position: absolute;      /* Absolute positioning */
-  top: 40%;                /* Adjust this value to move it slightly above the center */
-  left: 50%;               /* Center horizontally */
-  transform: translate(-50%, -50%); /* Center it based on its own width/height */
   font-size: 24px;
-  color: green;            /* Theme color */
+  color: #3f51b5; /* Changed to #3f51b5 */
 }
 
-/* General adjustments for positioning */
-.app-container {
-  padding: 0 20px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 30px; /* Adjusted for better spacing */
-}
-
-.most-popular-products {
+/* Login and Signup Forms */
+form {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Space between product cards */
-  justify-content: space-around; /* Center the products */
-  margin-top: 50px; /* Increased margin to ensure it sits below intro text */
-}
-
-.most-popular-products .product-card {
-  flex: 0 0 23%;
-  max-width: 23%;
-  box-sizing: border-box;
-  position: relative;
-  padding: 15px; /* Adjusted padding for better spacing */
+  flex-direction: column;
+  margin: 20px auto; /* Centered margin */
+  padding: 20px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  transition: box-shadow 0.3s ease;
+  border-radius: 8px;
+  width: 90%; /* Full width with a margin */
+  max-width: 400px; /* Max width for larger screens */
+  background-color: #f9f9f9; /* Light background */
 }
 
-.most-popular-products .product-card:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 10px;
+  margin: 10px 0; /* Adjusted margin */
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px;
+  transition: border-color 0.3s ease; /* Smooth transition */
 }
 
-.most-popular-products .product-card h3 {
-  margin-bottom: 10px;
-  font-size: 18px;
-  text-align: center;
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #3f51b5; /* Change border color on focus */
 }
 
-.most-popular-products .product-card .price {
-  color: #333;
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.most-popular-products .product-card .cart-icon {
-  font-size: 20px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #ff7f50;
-}
-
-.most-popular-products .product-card .buy-button {
-  background-color: #ff7f50;
-  color: white;
+button {
+  background-color: #3f51b5; /* Changed to #3f51b5 */
+  color: white; /* White text */
   border: none;
-  padding: 10px 0;
-  border-radius: 5px;
+  padding: 10px;
+  border-radius: 4px;
   cursor: pointer;
-  display: block;
-  width: 100%;
-  text-align: center;
+  transition: background-color 0.3s ease; /* Smooth transition */
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .most-popular-products .product-card {
-    flex: 0 0 48%;
-  }
-
-  .sidebar {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .main-content {
-    margin-left: 0;
-  }
-}
-
-@media (max-width: 480px) {
-  .most-popular-products .product-card {
-    flex: 0 0 100%;
-  }
-}
-
-/* Media query for responsiveness */
-@media (max-width: 768px) {
-  .most-popular-products .product-card {
-    flex: 0 0 48%;
-    max-width: 48%; /* Two products per row on smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .most-popular-products .product-card {
-    flex: 0 0 100%;
-    max-width: 100%; /* Single product per row on very small screens */
-  }
-}
 
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .most-popular-products .product-card {
-    flex: 0 0 48%;
+  .product-list-container {
+    flex-direction: column; /* Stack items on small screens */
   }
 
-  .sidebar {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .main-content {
-    margin-left: 0;
+  .cart-item {
+    width: 100%; /* Full width for cart items */
   }
 }
+.custom-container {
+  max-width: 1000px; /* Maximum width of the container */
+  width: 160%; /* Use full width of the parent container */
+  margin: 0 auto; /* Center the container */
+  margin-left: -80px; /* Shift the container slightly to the left */
+  padding: 30px 50px; /* Increase padding for more space */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for style */
+  border-radius: 8px; /* Optional: Rounded corners */
+}
 
-@media (max-width: 480px) {
-  .most-popular-products .product-card {
-    flex: 0 0 100%;
-  }
+
+.custom-input {
+  width: 100%; /* Make input fields full width */
+  margin-bottom: 20px; /* Spacing between fields */
+  font-size: 16px; /* Adjust font size for better readability */
+  padding: 12px; /* Add padding for better spacing */
+}
+
+.custom-button {
+  /* Default button color */
+  width: 100%; /* Make buttons full width */
+  font-size: 16px; /* Adjust font size */
+  padding: 12px; /* Add padding for better button size */
+}
+
+.custom-button:hover {
+  background-color: #3f51b5; /* Same color on hover */
+}
+
+.spacing {
+  margin-bottom: 20px; /* Space between email and password input fields */
+}
+
+.extra-text {
+  text-align: center; /* Center align the extra text */
+  margin-top: 15px; /* Add margin to the top */
+  font-size: 14px; /* Adjust font size */
+  color: #666; /* Optional: Change the text color */
 }

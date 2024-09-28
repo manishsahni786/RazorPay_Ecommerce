@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Input, Button, Typography } from 'antd';
+import { TextField, Button, Typography, Container, Box } from '@mui/material';
 import axios from 'axios';
-import '../App.css';
-
-const { Title, Text } = Typography;
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -24,28 +21,46 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-form-container" style={{ width: '500px', margin: '0 auto' }}>
-      <Title level={2} className="auth-form-title">Create an Account</Title>
-      <Text>Sign up to start shopping with us!</Text>
-      <Form onSubmitCapture={handleSignup} className="auth-form" layout="vertical" style={{ marginTop: '20px' }}>
-        <Form.Item label="Email" required>
-          <Input
-            type="email"
+    <Container maxWidth="lg">
+      <Box className="custom-container">
+        <Typography variant="h5" align="center" gutterBottom style={{ marginTop: '30px' }}>
+          Create an Account
+        </Typography>
+        <form onSubmit={handleSignup}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            className="custom-input"
+            required
+            margin="normal"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
           />
-        </Form.Item>
-        <Form.Item label="Password" required>
-          <Input.Password
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Create a password"
-          />
-        </Form.Item>
-        <Button type="primary" htmlType="submit" block>Signup</Button>
-      </Form>
-    </div>
+          <Box className="spacing">
+            <TextField
+              label="Password"
+              type="password"
+              variant="outlined"
+              className="custom-input"
+              required
+              margin="normal"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Box>
+          <Button
+            type="submit"
+            variant="contained"
+            className="custom-button"
+          >
+            Signup
+          </Button>
+        </form>
+        <Typography variant="body2" className="extra-text">
+          Already have an account? <a href="/login" style={{ color: '#3f51b5', textDecoration: 'none' }}>Login here</a>
+        </Typography>
+      </Box>
+    </Container>
   );
 };
 

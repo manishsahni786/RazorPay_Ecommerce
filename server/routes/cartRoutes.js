@@ -21,14 +21,15 @@ router.post('/add', async (req, res) => {
     }
 
     // Convert productId to ObjectId
-    const objectIdProductId = new mongoose.Types.ObjectId(productId);
+    const objectIdProductId = new mongoose.Types.ObjectId(productId); 
 
     // Find the category containing the product
-    const category = await Category.findOne({ 'product._id': objectIdProductId });
+    const category = await Category.findOne({ 'products._id': objectIdProductId });
     if (!category) return res.status(404).json({ message: 'Product not found in category' });
 
     // Get the product details
-    const product = category.product.id(objectIdProductId);
+    const product = category.products.id(objectIdProductId);
+    if (!product) return res.status(404).json({ message: 'Product details not found' });
 
     // Check if the product already exists in the cart
     const itemIndex = cart.items.findIndex(item => item.productId.equals(objectIdProductId));
@@ -53,6 +54,7 @@ router.post('/add', async (req, res) => {
     res.status(500).json({ message: 'Error adding or updating item in cart', error: error.message });
   }
 });
+
 
 // Get the user's cart
 router.get('/', async (req, res) => {

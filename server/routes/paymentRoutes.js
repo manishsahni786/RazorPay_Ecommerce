@@ -7,7 +7,7 @@ const protect = require('../middleware/authMiddleware');
 
 // @route   POST /api/payment/order
 // @desc    Create a new Razorpay order and save it to the database
-router.post('/order', async (req, res) => {
+router.post('/order', async (req, res, next) => {
   try {
     const { amount, email, shippingDetails, product } = req.body; // Getting products from the client
 
@@ -30,9 +30,9 @@ router.post('/order', async (req, res) => {
     // Save the order to the database
     const newOrder = new Order({
       razorpay_order_id: order.id,
-      amount: order.amount,
+      amount: order.amount/100,
       currency: order.currency,
-      receipt: order.receipt,
+      receipt: order.receipt, 
       email: email,
       product: product.map(item => ({
         name: item.name,
@@ -44,6 +44,7 @@ router.post('/order', async (req, res) => {
 
     await newOrder.save();
     res.status(200).json(order);
+    next()
   } catch (error) {
     console.error("Error creating Razorpay order:", error);
     res.status(500).json({ message: 'Something went wrong', error });
